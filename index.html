@@ -13,12 +13,23 @@
     <script type="text/javascript" src="file/jscex-async-powerpack.min.js"></script>
     <script type="text/javascript" src="file/function.js" charset="utf-8"></script>
     <script type="text/javascript" src="file/love.js" charset="utf-8"></script>
-    <script>
-        function playAudio() {
-            var audio = document.getElementById("myAudio");
-            audio.play();
+   <script>
+    function setupAudio() {
+        var audio = document.getElementById("myAudio");
+        
+        function startAudio() {
+            audio.play().then(function() {
+                document.removeEventListener("click", startAudio);
+            }).catch(function(error) {
+                console.log("Audio play failed:", error);
+            });
         }
-    </script>
+
+        document.addEventListener("click", startAudio);
+    }
+
+    document.addEventListener("DOMContentLoaded", setupAudio);
+</script>
 </head>
 <body>
     <div id="main">
