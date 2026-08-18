@@ -14,22 +14,17 @@
     <script type="text/javascript" src="file/function.js" charset="utf-8"></script>
     <script type="text/javascript" src="file/love.js" charset="utf-8"></script>
    <script>
-    function setupAudio() {
-        var audio = document.getElementById("myAudio");
-        
-        function startAudio() {
-            audio.play().then(function() {
-                document.removeEventListener("click", startAudio);
-            }).catch(function(error) {
-                console.log("Audio play failed:", error);
-            });
-        }
-
-        document.addEventListener("click", startAudio);
-    }
-
-    document.addEventListener("DOMContentLoaded", setupAudio);
-</script>
+        document.addEventListener("click", function startAudio() {
+            var audio = document.getElementById("myAudio");
+            if (audio) {
+                audio.play().then(function() {
+                    document.removeEventListener("click", startAudio);
+                }).catch(function(err) {
+                    console.log("Audio waiting for user action:", err);
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <div id="main">
@@ -116,7 +111,6 @@
         var hold = 1;
 
         canvas.click(function(e) {
-            playAudio();
             var offset = canvas.offset(), x, y;
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
